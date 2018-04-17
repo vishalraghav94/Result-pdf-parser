@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <script src="script/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="result" ng-controller="resultController">
+    <label for="enrol">Enter enrollment number: </label>
+    <input type="text" name="enrol" ng-model="enrol">
+    <button ng-click="getMarks(enrol)">Submit</button>
+
+    <div class="info">
+        <p>{{name}}</p>
+        <p>{{enrol}}</p>
+        <p>Marks: {{marks}}</p>
+    </div>
+</div>
+</body>
+<script src="script/index.js"></script>
+</html>
