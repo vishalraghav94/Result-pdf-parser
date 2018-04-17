@@ -137,9 +137,24 @@ setTimeout(function() {
   var i;
   for (i = 0; i < megaFinalArray.length; i++) {
     megaFinalArray[i] = megaFinalArray[i].filter((e) => validObject(e));
+  /*  megaFinalArray[i] = megaFinalArray[i].map((e) => {
+      var obj = {};
+      obj[e.enrol] = e;
+      return obj;
+    });*/
   }
   megaFinalArray = megaFinalArray.filter((e) => e && e.length);
-  fs.writeFile("./" + dest_file, JSON.stringify(megaFinalArray, null, 4), function(err) {
+  megaFinalArray = megaFinalArray.map((e) => {
+    var obj = {}, i;
+    for (i = 0; i < e.length; i++) {
+      obj[e[i].enrol] = e[i];
+    }
+    return obj;
+  })
+  var newObj = Object.assign({}, ...megaFinalArray);
+  console.log(newObj);
+
+  fs.writeFile("./" + dest_file, JSON.stringify(newObj, null, 4), function(err) {
       if(err) {
           return console.log(err);
       }
