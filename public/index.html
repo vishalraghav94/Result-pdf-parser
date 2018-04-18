@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <title>Result</title>
     <script src="script/angular.min.js"></script>
+    <link rel="stylesheet" href="style/index.css">
 </head>
 <body>
-<div ng-app="result" ng-controller="resultController">
-    <label for="enrol">Enter enrollment number: </label>
-    <input type="text" name="enrol" ng-model="enrol">
-    <button ng-click="getMarks(enrol)">Submit</button>
+<div ng-app="result" ng-controller="resultController" class="main-container">
+    <input type="text" name="enrol" ng-model="enrol" class="input-text" placeholder="Enrollment">
 
-    <div class="info">
-        <p>{{name}}</p>
-        <p>{{enrol}}</p>
-        <p>Marks: {{marks}}</p>
+    <div class="info" ng-if="studentInfo">
+        <p class="name">{{studentInfo.name}}</p>
+        <p class="enrol">Enrollment: {{studentInfo.enrol}}</p>
+        <ul style="list-style-type: none">
+            <li ng-repeat="(key, value) in studentInfo.marks" class="sub-list">{{key}}: <span>{{value}}</span></li>
+        </ul>
+        <p class="marks">Percentage: {{studentInfo.percent}}%</p>
     </div>
+    <button ng-click="getMarks(enrol)" class="submit-button">Submit</button>
 </div>
 </body>
 <script src="script/index.js"></script>

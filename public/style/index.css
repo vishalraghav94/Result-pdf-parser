@@ -1,0 +1,114 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/Open_Sans/OpenSans-Regular.ttf);
+}
+@font-face {
+    font-family: 'Open Sans Bold';
+    src: url(fonts/Open_Sans/OpenSans-Bold.ttf);
+}
+* {
+    font-family: "Open Sans";
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+.info {
+    color: white;
+    padding: 22px;
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 400% 400%;
+    text-transform: uppercase;
+    animation: Gradient 8s ease infinite;
+}
+.input-text {
+    padding: 8px 14px;
+    margin-bottom: 26px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 70px;
+    font-family: verdana;
+    color: white;
+    font-weight: 400;
+    transition: background 500ms ease;
+    outline: none;
+    background: rgba(255,255,255,.2);
+    font-size: 13px;
+}
+.input-text:focus {
+    background: rgba(255,255,255,.3)
+}
+.input-text::-webkit-input-placeholder {
+    color: white;
+}
+
+.input-text::-ms-input-placeholder {
+    color: white;
+}
+
+.input-text::-moz-placeholder {
+    color: white;
+}
+.submit-button {
+    width: 80%;
+    margin-top: 8px;
+    padding: 9px;
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 400% 400%;
+    text-transform: uppercase;
+    animation: Gradient 8s ease infinite;
+    text-align: center;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 55px;
+    position: absolute;
+    bottom: 51px;
+    left: 50px;
+}
+.name {
+    font-size: 32px;
+    color: black !important;
+    font-weight: bold;
+}
+.marks {
+    font-size: 22px;
+    color: black;
+    font-weight: bold;
+}
+.enrol {
+    font-size: 21px;
+    color: #212121;
+}
+.sub-list {
+    font-size: 14px;
+}
+.sub-list span {
+    font-weight: bold;
+    color: black;
+    font-size: 15px;
+}
+.main-container {
+    width: 493px;
+    position: relative;
+    border: 1px solid black;
+    height: 600px;
+    margin: 6px auto;
+    box-sizing: border-box;
+    background: linear-gradient( rgba(35,43,85,0.75), rgba(35,43,85,0.95)), url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/clouds-cloudy-forest-mountain.jpg) no-repeat center center;
+    padding: 37px;
+    background-size: cover;
+    border-radius: 4px;
+    overflow: hidden;
+}

@@ -3,6 +3,7 @@ var fs = require('fs');
 var child_process = require('child_process');
 var file = process.argv[2];
 var dest_file = process.argv[3];
+var subjects;
 console.log(file);
 console.log('pdfseparate ' + file + ' pdf_pages/%d.pdf');
 child_process.exec('mkdir pdf_pages');
@@ -20,6 +21,7 @@ var megaFinalArray = [];
 var rows = {}; // indexed by y-position
 var newArr = [];
 var filename = 'pdf_pages/';
+var subFlag = false;
 function printRows() {
   newArr = [];
   Object.keys(rows) // => array of y-positions (type: float)
@@ -27,10 +29,41 @@ function printRows() {
     .forEach(function(y) {
       newArr.push((rows[y] || []).join(','));
     });
+    if (newArr.length > 1) {
+        if (!subFlag) {
+            var subArray = newArr.filter((e, i) => i % 2);
+            subjects = subArray.map((e) => {
+                let id = e.split(',')[1];
+                let code = e.split(',')[2];
+                let sub = e.split(',')[3];
+                let obj = {};
+                obj.id = id;
+                obj.code = code;
+                obj.sub = sub;
+                return obj;
+            });
+            subjects = subjects.splice(4,subjects.length);
+            subFlag = true;
+        }
+    }
     newArr.splice(0, 14);
     newArr.splice(newArr.length - 4, 4);
     var finalArray;
     if (newArr.length > 1) {
+     /* if (!subFlag) {
+        var subArray = newArr.filter((e, i) => i % 2);
+          subjects = subArray.map((e) => {
+          let id = e.split(',')[1];
+          let code = e.split(',')[2];
+          let sub = e.split(',')[3];
+          let obj = {};
+          obj.id = id;
+          obj.code = code;
+          obj.sub = sub;
+          return obj;
+        });
+          subFlag = true;
+      }*/
       newArr = getFormattedArray(newArr);
       finalArray = getMarksObject(newArr);
     }
@@ -66,7 +99,7 @@ function getFormattedObj(arr) {
         obj['name'] = arr[i];
         break;
       case 6:
-        obj['marks'] = Math.round(parseMarksString(arr[i])*100)/100;
+        obj['marks'] = parseMarksString(arr[i]); //Math.round(parseMarksString(arr[i])*100)/100; //parseMarksString(arr[i]);
       default:
 
     }
@@ -82,7 +115,7 @@ function parseMarksString(marksString) {
   for (i = 0; i < marksString.length; i++) {
     totalMarks += marksString[i];
   }
-  return totalMarks/(marksString.length);
+  return marksString; //totalMarks/marksString.length; // marksString;
 }
 function getFormattedArray(arr) {
   var newArr = [], i;
@@ -137,20 +170,21 @@ setTimeout(function() {
   var i;
   for (i = 0; i < megaFinalArray.length; i++) {
     megaFinalArray[i] = megaFinalArray[i].filter((e) => validObject(e));
-  /*  megaFinalArray[i] = megaFinalArray[i].map((e) => {
-      var obj = {};
-      obj[e.enrol] = e;
-      return obj;
-    });*/
   }
   megaFinalArray = megaFinalArray.filter((e) => e && e.length);
   megaFinalArray = megaFinalArray.map((e) => {
-    var obj = {}, i;
+    var obj = {}, i,  marksObj = {};;
     for (i = 0; i < e.length; i++) {
+      e[i]['totalMarks'] = getTotalMarks(e[i].marks);
+
+      e[i].marks.forEach((e, i) => {
+        marksObj[subjects[i].sub] = e;
+      });
+      e[i].marks = marksObj;
       obj[e[i].enrol] = e[i];
     }
     return obj;
-  })
+  });
   var newObj = Object.assign({}, ...megaFinalArray);
   console.log(newObj);
 
@@ -163,3 +197,11 @@ setTimeout(function() {
   });
   child_process.exec('rm -rf pdf_pages/');
 }, 50000);
+
+function getTotalMarks(arr) {
+    var totalMarks = 0, i;
+    for (i = 0; i < arr.length; i++) {
+        totalMarks += arr[i];
+    }
+    return totalMarks;
+}
