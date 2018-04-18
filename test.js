@@ -173,14 +173,16 @@ setTimeout(function() {
   }
   megaFinalArray = megaFinalArray.filter((e) => e && e.length);
   megaFinalArray = megaFinalArray.map((e) => {
-    var obj = {}, i,  marksObj = {};;
+    var obj = {}, i;
     for (i = 0; i < e.length; i++) {
+        let marksObj = {};
       e[i]['totalMarks'] = getTotalMarks(e[i].marks);
 
-      e[i].marks.forEach((e, i) => {
-        marksObj[subjects[i].sub] = e;
+      e[i].marks.forEach((f, i) => {
+        marksObj[subjects[i].sub] = f;
       });
       e[i].marks = marksObj;
+      marksObj = {};
       obj[e[i].enrol] = e[i];
     }
     return obj;
