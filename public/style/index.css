@@ -103,7 +103,7 @@
     width: 493px;
     position: relative;
     border: 1px solid black;
-    height: 600px;
+    height: 650px;
     margin: 6px auto;
     box-sizing: border-box;
     background: linear-gradient( rgba(35,43,85,0.75), rgba(35,43,85,0.95)), url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/clouds-cloudy-forest-mountain.jpg) no-repeat center center;
@@ -111,4 +111,38 @@
     background-size: cover;
     border-radius: 4px;
     overflow: hidden;
+}
+.global-container {
+    display: flex;
+}
+.ranks-container {
+    width: 40%;
+    height: 100vh;
+    background: #23A6D5;
+}
+table, td, th {
+    border: 1px solid #ddd;
+}
+td, th {
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #23D5AB !important;
+    color: white;
+}
+table {
+    border-collapse: collapse;
+    width: 100%
+}
+caption {
+    padding: 10px;
+    font-size: 20px;
+}
+.leaderboards {
+    padding: 10px;
+}
+.winner td {
+    background-color: #E73C7E;
+    color: white;
 }

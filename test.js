@@ -145,7 +145,9 @@ var interval = setInterval(function() {
   if (k >=150) {
     clearInterval(interval);
   }
-}, 300);
+}, 150);
+
+
 function validObject(obj) {
   if (obj.marks == 0) {
     obj.marks = 1;
@@ -182,15 +184,32 @@ setTimeout(function() {
         marksObj[subjects[i].sub] = f;
       });
       e[i].marks = marksObj;
+      e[i].percent = Math.round((e[i].totalMarks/12) * 100) / 100;
       marksObj = {};
       obj[e[i].enrol] = e[i];
     }
     return obj;
   });
   var newObj = Object.assign({}, ...megaFinalArray);
+  var enrolStr = Object.keys(newObj)[0];
+  var finalObj = {};
+  enrolStr = enrolStr.substr(enrolStr.length - 8, enrolStr.length - 1);
+    //let obj = {};
+    finalObj[enrolStr] = {};
+    Object.keys(newObj).forEach((e) => {
+    if ((e.indexOf(enrolStr) !== -1)) {
+        //obj[e] = Object.assign({}, newObj[e]);
+       finalObj[enrolStr][e] = Object.assign({}, newObj[e]);
+    }
+    else {
+        enrolStr = e.substr(e.length - 8, e.length - 1);
+        finalObj[enrolStr] = {};
+        finalObj[enrolStr][e] = Object.assign({}, newObj[e]);
+    }
+  });
   console.log(newObj);
 
-  fs.writeFile("./" + dest_file, JSON.stringify(newObj, null, 4), function(err) {
+  fs.writeFile("./" + dest_file, JSON.stringify(finalObj, null, 4), function(err) {
       if(err) {
           return console.log(err);
       }
@@ -198,7 +217,7 @@ setTimeout(function() {
       console.log("The file was saved!");
   });
   child_process.exec('rm -rf pdf_pages/');
-}, 50000);
+}, 27000);
 
 function getTotalMarks(arr) {
     var totalMarks = 0, i;

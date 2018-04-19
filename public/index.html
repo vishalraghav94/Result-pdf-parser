@@ -7,19 +7,44 @@
     <link rel="stylesheet" href="style/index.css">
 </head>
 <body>
-<div ng-app="result" ng-controller="resultController" class="main-container">
-    <input type="text" name="enrol" ng-model="enrol" class="input-text" placeholder="Enrollment">
+<div ng-app="result" ng-controller="resultController" class="global-container">
+    <div class="main-container">
+        <input type="text" name="enrol" ng-model="enrol" class="input-text" placeholder="Enrollment">
 
-    <div class="info" ng-if="studentInfo">
-        <p class="name">{{studentInfo.name}}</p>
-        <p class="enrol">Enrollment: {{studentInfo.enrol}}</p>
-        <ul style="list-style-type: none">
-            <li ng-repeat="(key, value) in studentInfo.marks" class="sub-list">{{key}}: <span>{{value}}</span></li>
-        </ul>
-        <p class="marks">Percentage: {{studentInfo.percent}}%</p>
+        <div class="info" ng-if="studentInfo">
+            <p class="name">{{studentInfo.name}}</p>
+            <p class="enrol">Enrollment: {{studentInfo.enrol}}</p>
+            <ul style="list-style-type: none">
+                <li ng-repeat="(key, value) in studentInfo.marks" class="sub-list">{{key}}: <span>{{value}}</span></li>
+            </ul>
+            <p class="marks">Percentage: {{studentInfo.percent}}%</p>
+            <p class="marks">Rank: {{studentInfo.rank}}</p>
+        </div>
+        <button ng-click="getMarks(enrol)" class="submit-button">Submit</button>
     </div>
-    <button ng-click="getMarks(enrol)" class="submit-button">Submit</button>
+    <div class="leaderboards" ng-if="students">
+        <table>
+            <caption><b>Ranking Table</b></caption>
+            <tr>
+                <th>
+                    Enrolment No.
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Marks(%)
+                </th>
+            </tr>
+            <tr ng-repeat="student in students|limitTo:10" ng-class="{winner: !$index}">
+                <td>{{student.enrol}}</td>
+                <td>{{student.name}}</td>
+                <td>{{student.percent}}</td>
+            </tr>
+        </table>
+    </div>
 </div>
+
 </body>
 <script src="script/index.js"></script>
 </html>
