@@ -5832,26 +5832,6 @@
             "totalMarks": 806,
             "percent": 67.17
         },
-        "40113303115": {
-            "enrol": "40113303115",
-            "name": "S.VISHNU VARDHAN REDDY",
-            "marks": {
-                "ALGORITHMS DESIGN AND ANALYSIS": 57,
-                "COMMUNICATION SKILLS FOR PROFESSIONALS": 72,
-                "SOFTWARE ENGINEERING": 80,
-                "JAVA PROGRAMMING": 64,
-                "COMMUNICATION SYSTEMS": 41,
-                "INDUSTRIAL MANAGEMENT": 58,
-                "ALGORITHMS DESIGN AND ANALYSIS LAB": 91,
-                "COMMUNICATION SKILLS FOR PROFESSIONALS LAB": 92,
-                "SOFTWARE ENGINEERING LAB": 92,
-                "JAVA PROGRAMMING LAB": 91,
-                "COMMUNICATION SYSTEMS LAB": 91,
-                "VIVA INDUSTRIAL TRAINING / IN - HOUSE  WORKSHOP": 99
-            },
-            "totalMarks": 928,
-            "percent": 77.33
-        },
         "40213303115": {
             "enrol": "40213303115",
             "name": "SIDHARTH ARORA",
@@ -14411,26 +14391,6 @@
             },
             "totalMarks": 997,
             "percent": 83.08
-        },
-        "02320803115": {
-            "enrol": "02320803115",
-            "name": "PUNEET .",
-            "marks": {
-                "ALGORITHMS DESIGN AND ANALYSIS": 45,
-                "COMMUNICATION SKILLS FOR PROFESSIONALS": 69,
-                "SOFTWARE ENGINEERING": 73,
-                "JAVA PROGRAMMING": 69,
-                "COMMUNICATION SYSTEMS": 44,
-                "INDUSTRIAL MANAGEMENT": 72,
-                "ALGORITHMS DESIGN AND ANALYSIS LAB": 71,
-                "COMMUNICATION SKILLS FOR PROFESSIONALS LAB": 94,
-                "SOFTWARE ENGINEERING LAB": 81,
-                "JAVA PROGRAMMING LAB": 76,
-                "COMMUNICATION SYSTEMS LAB": 75,
-                "VIVA INDUSTRIAL TRAINING / IN - HOUSE  WORKSHOP": 81
-            },
-            "totalMarks": 850,
-            "percent": 70.83
         },
         "02420803115": {
             "enrol": "02420803115",

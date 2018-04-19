@@ -158,7 +158,7 @@ function validObject(obj) {
   if (!parseInt(obj.enrol)) {
       return false;
   }
-  if (obj.name.indexOf(',') !== -1) {
+  if (!/^[a-zA-z ]+$/gi.test(obj.name)) {
     return false;
   }
   if (obj.marks == 1) {
@@ -174,17 +174,20 @@ setTimeout(function() {
     megaFinalArray[i] = megaFinalArray[i].filter((e) => validObject(e));
   }
   megaFinalArray = megaFinalArray.filter((e) => e && e.length);
-  megaFinalArray = megaFinalArray.map((e) => {
+  megaFinalArray = megaFinalArray.map((e, y) => {
     var obj = {}, i;
     for (i = 0; i < e.length; i++) {
         let marksObj = {};
       e[i]['totalMarks'] = getTotalMarks(e[i].marks);
-
+        console.log('enrol:' + e[i].enrol);
+    console.log(e[i].marks);
+    console.log("I: %%%%%%%%%% "+ i + " %%%%%%% y: " + y);
       e[i].marks.forEach((f, i) => {
         marksObj[subjects[i].sub] = f;
       });
+      var totalSub = e[i].marks.length;
       e[i].marks = marksObj;
-      e[i].percent = Math.round((e[i].totalMarks/12) * 100) / 100;
+      e[i].percent = Math.round((e[i].totalMarks/totalSub) * 100) / 100;
       marksObj = {};
       obj[e[i].enrol] = e[i];
     }
