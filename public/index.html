@@ -15,6 +15,7 @@
         <div class="info" ng-if="studentInfo">
             <p class="name">{{studentInfo.name}}</p>
             <p class="enrol">Enrollment: {{studentInfo.enrol}}</p>
+            <p class="enrol" style="font-size: 12px; font-weight: bold;">Institute: {{studentInfo.institute}}</p>
             <ul style="list-style-type: none">
                 <li ng-repeat="(key, value) in studentInfo.marks" class="sub-list">{{key}}: <span>{{value}}</span></li>
             </ul>
