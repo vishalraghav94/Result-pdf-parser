@@ -6,9 +6,19 @@ const bodyParser = require('body-parser');
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-var data = fs.readFileSync('3rdsem.json');
-const marksObj = JSON.parse(data);
-
+var data = [];
+var count = 0;
+while(1) {
+  try {
+    let json = fs.readFileSync((count+ 1) + 'sem.json');
+    data.push(JSON.parse(json));
+    count++;
+  } catch(e) {
+    break;
+  }
+}
+console.log(data);
+var marksObj;
 console.log(marksObj);
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + 'public/index.html'));
@@ -16,12 +26,18 @@ app.get('/', function(req, res) {
 var globalEnrol, localRanks;
 app.get('/marks', function(req, res) {
     let enrol = req.query.enrol;
+    let sem = req.query.sem || 5;
+    if (sem > count) {
+        res.send({error: 'This sem\'s result doesnt exist.'});
+    }
+    marksObj = data[sem - 1];
   let currentEnrol = enrol.substr(enrol.length - 8, enrol.length - 1);
   if (!globalEnrol || (globalEnrol !== currentEnrol)) {
     globalEnrol = currentEnrol;
   }
   let marks = marksObj[currentEnrol];
   let currentStuObj = marks[req.query.enrol];
+  localRanks = getLocalRanks(marks);
   let rank = localRanks.indexOf(currentStuObj);
   currentStuObj.rank = rank + 1;
   res.send({data: currentStuObj});
@@ -29,6 +45,11 @@ app.get('/marks', function(req, res) {
 
 app.get('/ranks', function(req, res) {
   let enrolOffset = req.query.enrol;
+  let sem = req.query.sem || 5;
+  if (sem > count) {
+      res.send({error: 'This sem\'s result doesnt exist.'});
+  }
+  marksObj = data[sem - 1];
   let marks = marksObj[enrolOffset];
   localRanks = getLocalRanks(marks);
   res.send({data: localRanks});
