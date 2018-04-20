@@ -10,12 +10,12 @@ child_process.exec('mkdir pdf_pages');
 child_process.exec('pdfseparate ' + file + ' pdf_pages/%d.pdf',function
       (error, stdout, stderr) {
       if (error) {
-         console.log(error.stack);
-         console.log('Error code: '+error.code);
-         console.log('Signal received: '+error.signal);
+         //console.log(error.stack);
+         //console.log('Error code: '+error.code);
+         //console.log('Signal received: '+error.signal);
       }
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
+      //console.log('stdout: ' + stdout);
+      //console.log('stderr: ' + stderr);
    });
 var megaFinalArray = [];
 var rows = {}; // indexed by y-position
@@ -23,6 +23,7 @@ var newArr = [];
 var filename = 'pdf_pages/';
 var subFlag = false;
 function printRows() {
+    var instituteString;
   newArr = [];
   Object.keys(rows) // => array of y-positions (type: float)
     .sort((y1, y2) => parseFloat(y1) - parseFloat(y2)) // sort float positions
@@ -30,6 +31,12 @@ function printRows() {
       newArr.push((rows[y] || []).join(','));
     });
     if (newArr.length > 1) {
+        if (newArr[13].indexOf('Institution Code') !== -1) {
+            let str = newArr[13];
+            instituteString = str.substr(str.lastIndexOf('Institution') + 'Institution: '.length, str.length);
+            instituteString = instituteString.split(',').join('');
+            instituteString = instituteString.split(' ').filter(e => e).join(' ');
+        }
         if (!subFlag) {
             var subArray = newArr.filter((e, i) => i % 2);
             subjects = subArray.map((e) => {
@@ -65,15 +72,16 @@ function printRows() {
           subFlag = true;
       }*/
       newArr = getFormattedArray(newArr);
-      finalArray = getMarksObject(newArr);
+      finalArray = getMarksObject(newArr, instituteString);
     }
-    console.log(finalArray);
+    //console.log(finalArray);
     megaFinalArray.push(finalArray);
 }
-function getMarksObject(arr) {
+function getMarksObject(arr, institute) {
   var i, obj = {}, finalArray = [];
   for (i = 0; i < arr.length; i++) {
-    obj = getFormattedObj(arr[i]);
+    obj = getFormattedObj(arr[i], institute);
+    //obj.institute = institute.split(',').join('');
     finalArray.push(obj);
   }
   return finalArray;
@@ -88,7 +96,7 @@ function parseMarksString(marksString) {
   }
   return totalMarks;
 }
-function getFormattedObj(arr) {
+function getFormattedObj(arr,institute) {
   var i, obj = {};
   for (i = 0; i < arr.length; i++) {
     switch (i) {
@@ -104,6 +112,7 @@ function getFormattedObj(arr) {
 
     }
   }
+  obj['institute'] = institute;
   return obj;
 }
 function parseMarksString(marksString) {
@@ -179,9 +188,9 @@ setTimeout(function() {
     for (i = 0; i < e.length; i++) {
         let marksObj = {};
       e[i]['totalMarks'] = getTotalMarks(e[i].marks);
-        console.log('enrol:' + e[i].enrol);
-    console.log(e[i].marks);
-    console.log("I: %%%%%%%%%% "+ i + " %%%%%%% y: " + y);
+        //console.log('enrol:' + e[i].enrol);
+    //console.log(e[i].marks);
+    //console.log("I: %%%%%%%%%% "+ i + " %%%%%%% y: " + y);
       e[i].marks.forEach((f, i) => {
         marksObj[subjects[i].sub] = f;
       });
@@ -210,14 +219,14 @@ setTimeout(function() {
         finalObj[enrolStr][e] = Object.assign({}, newObj[e]);
     }
   });
-  console.log(newObj);
+  //console.log(newObj);
 
   fs.writeFile("./" + dest_file, JSON.stringify(finalObj, null, 4), function(err) {
       if(err) {
-          return console.log(err);
+          return //console.log(err);
       }
 
-      console.log("The file was saved!");
+      //console.log("The file was saved!");
   });
   child_process.exec('rm -rf pdf_pages/');
 }, 27000);

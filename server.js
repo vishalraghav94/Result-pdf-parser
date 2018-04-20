@@ -23,7 +23,7 @@ console.log(marksObj);
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + 'public/index.html'));
 });
-var globalEnrol, localRanks, globalRanks, lastSem;
+var globalEnrol, localRanks, globalRanks, lastSem, lastInstitute, collegeRanks;
 app.get('/marks', function(req, res) {
     let enrol = req.query.enrol;
     let sem = req.query.sem || 5;
@@ -40,13 +40,21 @@ app.get('/marks', function(req, res) {
   localRanks = getLocalRanks(marks);
   if ((lastSem !== sem) || !globalRanks) {
       globalRanks = getGlobalRanks(marksObj);
+      collegeRanks = getCollegeRank(marksObj, currentStuObj.institute);
       lastSem = sem;
   }
+  if ((lastInstitute !== currentStuObj.institute) || !collegeRanks) {
+      collegeRanks = getCollegeRank(marksObj, currentStuObj.institute);
+      lastInstitute = currentStuObj.institute;
+  }
+ // let collegeRanks = getCollegeRank(marksObj, currentStuObj.institute);
+  let collegeRank = collegeRanks.indexOf(currentStuObj);
   //globalRanks = globalRanks || getGlobalRanks(marksObj);
   let rank = localRanks.indexOf(currentStuObj);
   let globalRank = globalRanks.indexOf(currentStuObj);
   currentStuObj.rank = rank + 1;
   currentStuObj.globalRank = globalRank + 1;
+  currentStuObj.collegeRank = collegeRank + 1;
   res.send({data: currentStuObj});
 });
 
@@ -86,6 +94,18 @@ function getGlobalRanks(obj) {
     });
     marksArr = marksArr.sort((obj1, obj2) => obj2.totalMarks - obj1.totalMarks);
     return marksArr;
+}
+
+function getCollegeRank(obj, institute) {
+    let newArr = [];
+    Object.keys(obj).forEach((e) =>{
+        Object.keys(obj[e]).forEach((f) => {
+            if (obj[e][f].institute === institute)
+                newArr.push(obj[e][f]);
+        })
+    });
+    newArr = newArr.sort((obj1, obj2) => obj2.totalMarks - obj1.totalMarks);
+    return newArr;
 }
 app.listen(3000, function() {
   console.log('Server up and running at http://localhost:3000');
