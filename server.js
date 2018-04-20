@@ -23,7 +23,7 @@ console.log(marksObj);
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + 'public/index.html'));
 });
-var globalEnrol, localRanks;
+var globalEnrol, localRanks, globalRanks, lastSem;
 app.get('/marks', function(req, res) {
     let enrol = req.query.enrol;
     let sem = req.query.sem || 5;
@@ -38,8 +38,15 @@ app.get('/marks', function(req, res) {
   let marks = marksObj[currentEnrol];
   let currentStuObj = marks[req.query.enrol];
   localRanks = getLocalRanks(marks);
+  if ((lastSem !== sem) || !globalRanks) {
+      globalRanks = getGlobalRanks(marksObj);
+      lastSem = sem;
+  }
+  //globalRanks = globalRanks || getGlobalRanks(marksObj);
   let rank = localRanks.indexOf(currentStuObj);
+  let globalRank = globalRanks.indexOf(currentStuObj);
   currentStuObj.rank = rank + 1;
+  currentStuObj.globalRank = globalRank + 1;
   res.send({data: currentStuObj});
 });
 
@@ -63,6 +70,22 @@ function getLocalRanks(obj) {
     return obj2.totalMarks - obj1.totalMarks;
   });
   return arr;
+}
+app.get('/globalrank', function(req, res) {
+   let sem = req.query.sem;
+   let obj = data[sem - 1];
+   let arr = getGlobalRanks(obj);
+   res.send({data: arr});
+});
+function getGlobalRanks(obj) {
+    let marksArr = [];
+    Object.keys(obj).forEach((e) =>{
+        Object.keys(obj[e]).forEach((f) => {
+            marksArr.push(obj[e][f]);
+        })
+    });
+    marksArr = marksArr.sort((obj1, obj2) => obj2.totalMarks - obj1.totalMarks);
+    return marksArr;
 }
 app.listen(3000, function() {
   console.log('Server up and running at http://localhost:3000');
