@@ -33,7 +33,25 @@
     </div>
 
     <div class="leaderboards" ng-if="students">
-        <table>
+        <div class="table">
+            <div class="row-header">
+                <div class="td-heading">
+                    Enrolment No.
+                </div>
+                <div class="td-heading">
+                    Name
+                </div>
+                <div class="td-heading">
+                    Marks
+                </div>
+            </div>
+            <div class="row"  ng-repeat="student in students | limitTo: 10" ng-click="getMarks(student.enrol, sem)">
+                <div class="td">{{student.enrol}}</div>
+                <div class="td">{{student.name}}</div>
+                <div class="td">{{student.percent}}</div>
+            </div>
+        </div>
+       <!-- <table>
             <caption><b>Ranking Table (Sem : {{sem || 5}})</b></caption>
             <tr>
                 <th>
@@ -51,7 +69,7 @@
                 <td>{{student.name}}</td>
                 <td>{{student.percent}}</td>
             </tr>
-        </table>
+        </table>-->
     </div>
 
 </div>

@@ -160,8 +160,9 @@ caption {
     font-size: 20px;
 }
 .leaderboards {
-    padding: 10px;
-    width: 25%;
+    padding-left: 37px;
+    padding-bottom: 20px;
+    width: 54%;
 }
 .winner td {
     background-color: #E73C7E;
@@ -174,4 +175,42 @@ caption {
     padding: 10px;
     display: inline-block;
     border: 1px solid #e3e3e3;
+}
+.table {
+    box-shadow: 0 0px 14px 3px rgba(0, 0, 0, 0.15);
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+}
+.row-header, .row {
+    display: table-row;
+    transition: background-color 0.2s ease;
+}
+.row:hover {
+    background: rgba(200,200,200,0.1);
+}
+.row {
+    cursor: pointer;
+}
+.td, .td-heading {
+    padding: 16px;
+    text-align: center;
+    font-size: 15px;
+    display: table-cell;
+    border-bottom: 1px solid #ddd;
+}
+.row-header {
+    box-shadow: 0 5px 15px 1px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 400% 400%;
+    animation: Gradient 8s ease infinite;
+}
+.td-heading {
+    background-color: transparent;
+    font-size: 16px;
+    /* background: white; */
+    color: white;
+    padding: 18px;
 }

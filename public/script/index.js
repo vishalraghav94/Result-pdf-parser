@@ -27,7 +27,8 @@ result.controller('resultController', function($scope, $http) {
         else {
             marksCall(enrol, sem);
         }
-
+        scrollToY(0, 0, 'easeOutSine');
+       // window.scrollTo(0, 0);
     };
     function marksCall(enrol, sem) {
         $http.get('/marks?enrol=' + enrol + '&sem=' + sem).then(function(res) {
@@ -40,6 +41,9 @@ result.controller('resultController', function($scope, $http) {
     }
    function createGraph(data) {
        var ctx = document.getElementById("myChart").getContext('2d');
+       var gradient = ctx.createLinearGradient(0, 100, 300, 0);
+       gradient.addColorStop(0, '#EE7752');
+       gradient.addColorStop(1, '#E73C7E');
        console.log(ctx);
        var myChart = new Chart(ctx, {
            type: 'line',
@@ -48,9 +52,9 @@ result.controller('resultController', function($scope, $http) {
                datasets: [{
                    label: 'Marks over Semesters',
                    data: data,//[74.4, 78, 80.9, 80.5, 83.5],
-                   backgroundColor: [
-                       'rgba(0,229,255, 0.6)'
-                   ],
+                   backgroundColor: gradient /*[
+                       'linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB)'//'rgba(0,229,255, 0.6)'
+                   ]*/,
                    borderColor: [
                        '#212121'
                    ],
@@ -79,3 +83,68 @@ result.controller('resultController', function($scope, $http) {
        });
    }
 });
+
+window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame       ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+        };
+})();
+
+// main function
+function scrollToY(scrollTargetY, speed, easing) {
+    // scrollTargetY: the target scrollY property of the window
+    // speed: time in pixels per second
+    // easing: easing equation to use
+
+    var scrollY = window.scrollY,
+        scrollTargetY = scrollTargetY || 0,
+        speed = speed || 2000,
+        easing = easing || 'easeOutSine',
+        currentTime = 0;
+
+    // min time .1, max time .8 seconds
+    var time = Math.max(.1, Math.min(Math.abs(scrollY - scrollTargetY) / speed, .8));
+
+    // easing equations from https://github.com/danro/easing-js/blob/master/easing.js
+    var PI_D2 = Math.PI / 2,
+        easingEquations = {
+            easeOutSine: function (pos) {
+                return Math.sin(pos * (Math.PI / 2));
+            },
+            easeInOutSine: function (pos) {
+                return (-0.5 * (Math.cos(Math.PI * pos) - 1));
+            },
+            easeInOutQuint: function (pos) {
+                if ((pos /= 0.5) < 1) {
+                    return 0.5 * Math.pow(pos, 5);
+                }
+                return 0.5 * (Math.pow((pos - 2), 5) + 2);
+            }
+        };
+
+    // add animation loop
+    function tick() {
+        currentTime += 1 / 60;
+
+        var p = currentTime / time;
+        var t = easingEquations[easing](p);
+
+        if (p < 1) {
+            requestAnimFrame(tick);
+
+            window.scrollTo(0, scrollY + ((scrollTargetY - scrollY) * t));
+        } else {
+            console.log('scroll done');
+            window.scrollTo(0, scrollTargetY);
+        }
+    }
+
+    // call it once to get started
+    tick();
+}
+
+// scroll it!
+
