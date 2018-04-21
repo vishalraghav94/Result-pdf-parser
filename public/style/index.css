@@ -97,11 +97,11 @@
     font-size: 15px;
 }
 .main-container {
-    width: 493px;
+    width: 36%;
     position: relative;
     border: 1px solid black;
     height: auto;
-    margin: 6px auto;
+    margin: 6px 10px;
     box-sizing: border-box;
     background: linear-gradient( rgba(35,43,85,0.75), rgba(35,43,85,0.95)), url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/clouds-cloudy-forest-mountain.jpg) no-repeat center center;
     padding: 37px;
@@ -123,6 +123,7 @@ table, td, th {
 td, th {
     padding: 10px;
     text-align: center;
+    font-size: 13px;
 }
 th {
     background-color: #23D5AB !important;
@@ -138,8 +139,12 @@ caption {
 }
 .leaderboards {
     padding: 10px;
+    width: 25%;
 }
 .winner td {
     background-color: #E73C7E;
     color: white;
+}
+.graph {
+    width: 35%
 }

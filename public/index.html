@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Result</title>
     <script src="script/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <link rel="stylesheet" href="style/index.css">
 </head>
 <body>
@@ -26,6 +27,9 @@
         </div>
         <button ng-click="getMarks(enrol, sem)" class="submit-button">Submit</button>
     </div>
+    <div class="graph">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
     <div class="leaderboards" ng-if="students">
         <table>
             <caption><b>Ranking Table (Sem : {{sem || 5}})</b></caption>
@@ -47,6 +51,7 @@
             </tr>
         </table>
     </div>
+
 </div>
 
 </body>

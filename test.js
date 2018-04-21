@@ -197,6 +197,7 @@ setTimeout(function() {
       var totalSub = e[i].marks.length;
       e[i].marks = marksObj;
       e[i].percent = Math.round((e[i].totalMarks/totalSub) * 100) / 100;
+      e[i].totalSub = totalSub;
       marksObj = {};
       obj[e[i].enrol] = e[i];
     }

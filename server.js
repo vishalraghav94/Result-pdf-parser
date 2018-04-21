@@ -35,6 +35,10 @@ app.get('/marks', function(req, res) {
   if (!globalEnrol || (globalEnrol !== currentEnrol)) {
     globalEnrol = currentEnrol;
   }
+  let allSemMarks = [], s;
+  for (s = 0; s < data.length; s++) {
+      allSemMarks.push(data[s][currentEnrol][req.query.enrol]['percent']);
+  }
   let marks = marksObj[currentEnrol];
   let currentStuObj = marks[req.query.enrol];
   localRanks = getLocalRanks(marks);
@@ -55,6 +59,7 @@ app.get('/marks', function(req, res) {
   currentStuObj.rank = rank + 1;
   currentStuObj.globalRank = globalRank + 1;
   currentStuObj.collegeRank = collegeRank + 1;
+  currentStuObj.allSemMarks = allSemMarks;
   res.send({data: currentStuObj});
 });
 
