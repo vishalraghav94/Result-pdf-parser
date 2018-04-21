@@ -23,11 +23,24 @@
         background-position: 0% 50%
     }
 }
+.transparent {
+    background: transparent !important;
+    border: transparent !important;
+}
 .info {
+    vertical-align: top;
     color: white;
+    border-radius: 4px;
+    border-left: 4px solid #f66;
+    width: 52%;
+    border: 1px solid #e3e3e3;
+    margin-right: 6%;
+    display: inline-block;
     padding: 22px;
-    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    box-sizing: border-box;
+    background: #f8f8f8;
     background-size: 400% 400%;
+    border-left: 6px solid #f66;
     text-transform: uppercase;
     animation: Gradient 8s ease infinite;
 }
@@ -35,33 +48,36 @@
     padding: 8px 14px;
     margin-bottom: 26px;
     box-sizing: border-box;
-    width: 100%;
+    width: 9%;
     border-radius: 70px;
     font-family: verdana;
-    color: white;
+    color: black;
     font-weight: 400;
-    transition: background 500ms ease;
+    transition: all 200ms ease;
     outline: none;
-    background: rgba(255,255,255,.2);
+    border: 1px solid #e3e3e3;
     font-size: 13px;
 }
 .input-text:focus {
-    background: rgba(255,255,255,.3)
+    border: 1px solid #23D5AB;
 }
 .input-text::-webkit-input-placeholder {
-    color: white;
+    color: #ccc;
+    font-weight: lighter;
 }
 
 .input-text::-ms-input-placeholder {
-    color: white;
+    color: #ccc;
+    font-weight: lighter;
 }
 
 .input-text::-moz-placeholder {
     color: white;
 }
 .submit-button {
-    width: 100%;
-    margin-top: 30px;
+    width: 9%;
+    /* margin-top: 30px; */
+    margin-left: 33px;
     padding: 9px;
     background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
     background-size: 400% 400%;
@@ -80,7 +96,7 @@
     font-weight: bold;
 }
 .marks {
-    font-size: 22px;
+    font-size: 20px;
     color: black;
     font-weight: bold;
 }
@@ -89,7 +105,13 @@
     color: #212121;
 }
 .sub-list {
+    color: #E91E63;
+    font-weight: bold;
     font-size: 14px;
+}
+.fail {
+    font-size: 20px !important;
+    color: red !important;
 }
 .sub-list span {
     font-weight: bold;
@@ -97,20 +119,20 @@
     font-size: 15px;
 }
 .main-container {
-    width: 36%;
+    width: 100%;
     position: relative;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: auto;
-    margin: 6px 10px;
+    /* margin: 6px 10px; */
     box-sizing: border-box;
-    background: linear-gradient( rgba(35,43,85,0.75), rgba(35,43,85,0.95)), url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/clouds-cloudy-forest-mountain.jpg) no-repeat center center;
-    padding: 37px;
+    background: white;
+    padding: 40px;
     background-size: cover;
     border-radius: 4px;
     overflow: hidden;
 }
 .global-container {
-    display: flex;
+    display: block;
 }
 .ranks-container {
     width: 40%;
@@ -146,5 +168,10 @@ caption {
     color: white;
 }
 .graph {
-    width: 35%
+    width: 40%;
+    box-sizing: border-box;
+    background: #f8f8f8;
+    padding: 10px;
+    display: inline-block;
+    border: 1px solid #e3e3e3;
 }
