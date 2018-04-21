@@ -49,22 +49,12 @@ result.controller('resultController', function($scope, $http) {
                    label: 'Marks over Semesters',
                    data: data,//[74.4, 78, 80.9, 80.5, 83.5],
                    backgroundColor: [
-                       'rgba(255, 99, 132, 0.2)',
-                       'rgba(54, 162, 235, 0.2)',
-                       'rgba(255, 206, 86, 0.2)',
-                       'rgba(75, 192, 192, 0.2)',
-                       'rgba(153, 102, 255, 0.2)',
-                       'rgba(255, 159, 64, 0.2)'
+                       'rgba(0,229,255, 0.6)'
                    ],
                    borderColor: [
-                       'rgba(255,99,132,1)',
-                       'rgba(54, 162, 235, 1)',
-                       'rgba(255, 206, 86, 1)',
-                       'rgba(75, 192, 192, 1)',
-                       'rgba(153, 102, 255, 1)',
-                       'rgba(255, 159, 64, 1)'
+                       '#212121'
                    ],
-                   borderWidth: 1
+                   borderWidth: 3
                }]
            },
            options: {
@@ -72,6 +62,16 @@ result.controller('resultController', function($scope, $http) {
                    yAxes: [{
                        ticks: {
                            beginAtZero:false
+                       },
+                       scaleLabel: {
+                           display: true,
+                           labelString: 'Marks'
+                       }
+                   }],
+                   xAxes: [{
+                       scaleLabel: {
+                           display: true,
+                           labelString: 'Semester'
                        }
                    }]
                }

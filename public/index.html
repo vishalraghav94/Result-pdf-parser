@@ -11,7 +11,7 @@
 <div ng-app="result" ng-controller="resultController" class="global-container">
     <div class="main-container">
         <input type="text" name="enrol" ng-model="enrol" class="input-text" placeholder="Enrollment">
-        <input type="number" name="num" ng-model="sem" class="input-text" placeholder="Sem">
+        <input type="number" name="num" ng-model="sem" class="input-text" placeholder="Sem" min="1">
 
         <div class="info" ng-if="studentInfo">
             <p class="name">{{studentInfo.name}}</p>
