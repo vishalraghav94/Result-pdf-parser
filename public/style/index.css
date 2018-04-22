@@ -232,3 +232,48 @@ table {
     margin-left: 20px;
     border-radius: 3px;
 }
+.marks-table .table {
+    box-shadow: 0 0px 14px 3px rgba(0, 0, 0, 0.15);
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+}
+.marks-table .table .td, .marks-table .table .td-heading {
+    padding: 6px;
+    text-align: center;
+    font-size: 10px;
+    display: table-cell;
+    border-bottom: 1px solid #ddd;
+}
+.marks-table .table .td {
+    color: black;
+}
+.marks-table {
+    margin: 17px 0;
+    width: 55%;
+}
+.percentage-container {
+    width: 43%;
+    box-sizing: border-box;
+    padding: 25px;
+    margin: 17px 0;
+    padding-top: 25px;
+    margin-left: 24px;
+    border: 1px solid #ccc;
+    padding-bottom: 0;
+    border-top: 6px solid rebeccapurple;
+    border-radius: 6px;
+    vertical-align: middle;
+    box-shadow: 0 0px 14px 3px rgba(0, 0, 0, 0.15);
+}
+.tables-container {
+    display: flex;
+}
+.ranks .marks {
+    font-size: 15px;
+}
+.ranks {
+    margin-bottom: 10px;
+}
