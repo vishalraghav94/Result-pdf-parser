@@ -194,6 +194,6 @@ function getCollegeRank(obj, institute, isOverallRank) {
 
     return newArr;
 }
-app.listen(8080, function() {
+app.listen(process.env.PORT || 8080, function() {
   console.log('Server up and running at http://localhost:8080');
 });
