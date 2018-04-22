@@ -19,7 +19,12 @@ result.controller('resultController', function($scope, $http) {
                     alert(res.data.error);
                 }
                 else {
-                    $scope.students = res.data.data;
+                    $scope.studentsArray = res.data.data;
+                    $scope.startIndex = 0;
+                    $scope.endIndex = 10;
+                    $scope.maxIndex = $scope.studentsArray.length - 1;
+                    $scope.minIndex = 0;
+                    $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
                     marksCall(enrol, sem);
                 }
             });
@@ -27,9 +32,33 @@ result.controller('resultController', function($scope, $http) {
         else {
             marksCall(enrol, sem);
         }
-        scrollToY(0, 0, 'easeOutSine');
+
+        scrollToY(0, 1200, 'easeOutSine');
        // window.scrollTo(0, 0);
     };
+
+
+    $scope.next = function() {
+        if ($scope.endIndex + 10 <= $scope.maxIndex)
+        {
+            $scope.startIndex += 10;
+            $scope.endIndex += 10;
+        }
+      $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+    };
+    $scope.previous = function() {
+        if ($scope.startIndex - 10 >= $scope.minIndex)
+        {
+            $scope.startIndex -= 10;
+            $scope.endIndex -= 10;
+        }
+        $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+    };
+    $scope.returnToFirst = function() {
+        $scope.startIndex = 0;
+        $scope.endIndex = 10;
+        $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+    }
     function marksCall(enrol, sem) {
         $http.get('/marks?enrol=' + enrol + '&sem=' + sem).then(function(res) {
             $scope.studentInfo = res.data.data;

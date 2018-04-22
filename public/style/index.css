@@ -49,6 +49,7 @@
     margin-bottom: 26px;
     box-sizing: border-box;
     width: 9%;
+    min-width: 123px;
     border-radius: 70px;
     font-family: verdana;
     color: black;
@@ -76,6 +77,7 @@
 }
 .submit-button {
     width: 9%;
+    min-width: 123px;
     /* margin-top: 30px; */
     margin-left: 33px;
     padding: 9px;
@@ -155,9 +157,10 @@ table {
     border-collapse: collapse;
     width: 100%
 }
-caption {
+.caption {
+    text-align: center;
     padding: 10px;
-    font-size: 20px;
+    font-size: 23px;
 }
 .leaderboards {
     padding-left: 37px;
@@ -213,4 +216,19 @@ caption {
     /* background: white; */
     color: white;
     padding: 18px;
+}
+.table-body-container {
+    display: table-row-group;
+    max-height: 530px;
+    overflow: scroll;
+}
+.ranks {
+    max-width: 343px;
+    padding: 10px;
+    padding-left: 24px;
+    background: #BBDEFB;
+    border: 1px solid blue;
+    border-left: 5px solid #673AB7;
+    margin-left: 20px;
+    border-radius: 3px;
 }

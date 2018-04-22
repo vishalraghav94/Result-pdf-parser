@@ -22,10 +22,20 @@
             <ul style="list-style-type: none">
                 <li ng-repeat="(key, value) in studentInfo.marks" class="sub-list">{{key}}: <span ng-class="{fail: (value < 40)}">{{value}} <span class="fail" ng-if="value < 40">( Failed! )</span></span></li>
             </ul>
-            <p class="marks" style="font-size: 26px;">Percentage: <span>{{studentInfo.percent}}%</span></p>
-            <p class="marks">Class Rank: <span>{{studentInfo.rank}}</span></p>
-            <p class="marks">University Rank: <span>{{studentInfo.globalRank}}</span></p>
-            <p class="marks">College Rank: <span>{{studentInfo.collegeRank}}</span></p>
+            <p class="marks" style="font-size: 26px;">Sem Percentage: <span>{{studentInfo.percent}}%</span></p>
+            <p class="marks" style="font-size: 26px;">Overall Percentage: <span>{{studentInfo.averageMarks}}%</span></p>
+            <p class="marks">This sem ranks:</p>
+            <div class="ranks">
+                <p class="marks">Class Rank: <span>{{studentInfo.rank}}</span></p>
+                <p class="marks">University Rank: <span>{{studentInfo.globalRank}}</span></p>
+                <p class="marks">College Rank: <span>{{studentInfo.collegeRank}}</span></p>
+            </div>
+            <p class="marks">Overall ranks:</p>
+            <div class="ranks">
+                <p class="marks">Class Rank: <span>{{studentInfo.overallRanks.rank}}</span></p>
+                <p class="marks">University Rank: <span>{{studentInfo.overallRanks.globalRank}}</span></p>
+                <p class="marks">College Rank: <span>{{studentInfo.overallRanks.collegeRank}}</span></p>
+            </div>
         </div>
         <div class="graph" ng-class="{transparent: !studentInfo}">
             <canvas id="myChart" width="400" height="400"></canvas>
@@ -33,6 +43,7 @@
     </div>
 
     <div class="leaderboards" ng-if="students">
+        <div class="caption">Ranking Table ( Sem: {{ sem || 5 }} )</div>
         <div class="table">
             <div class="row-header">
                 <div class="td-heading">
@@ -45,12 +56,21 @@
                     Marks
                 </div>
             </div>
-            <div class="row"  ng-repeat="student in students | limitTo: 10" ng-click="getMarks(student.enrol, sem)">
-                <div class="td">{{student.enrol}}</div>
-                <div class="td">{{student.name}}</div>
-                <div class="td">{{student.percent}}</div>
+            <div class="table-body-container">
+                <div class="row"  ng-repeat="student in students | limitTo: 10" ng-click="getMarks(student.enrol, sem)">
+                    <div class="td">{{student.enrol}}</div>
+                    <div class="td">{{student.name}}</div>
+                    <div class="td">{{student.percent}}</div>
+                </div>
+                <div class="row">
+                    <div class="td"><button style="margin-left: 0;" ng-click="previous()" class="submit-button">Previous</button></div>
+                    <div class="td"><button style="margin-left: 0;" ng-click="returnToFirst()" class="submit-button">Return to First Page</button></div>
+                    <div class="td"><button style="margin-left: 0;" ng-click="next()" class="submit-button">Next</button></div>
+                </div>
             </div>
+
         </div>
+
        <!-- <table>
             <caption><b>Ranking Table (Sem : {{sem || 5}})</b></caption>
             <tr>
