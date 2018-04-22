@@ -194,6 +194,6 @@ function getCollegeRank(obj, institute, isOverallRank) {
 
     return newArr;
 }
-app.listen(3000, function() {
-  console.log('Server up and running at http://localhost:3000');
+app.listen(8080, function() {
+  console.log('Server up and running at http://localhost:8080');
 });
