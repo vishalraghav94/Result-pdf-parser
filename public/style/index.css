@@ -163,9 +163,13 @@ table {
     font-size: 23px;
 }
 .leaderboards {
-    padding-left: 37px;
     padding-bottom: 20px;
-    width: 54%;
+    width: 45%;
+    margin: auto;
+}
+.global-leaderboards {
+    margin: 0 auto;
+    width: 45%;
 }
 .winner td {
     background-color: #E73C7E;
@@ -276,4 +280,11 @@ table {
 }
 .ranks {
     margin-bottom: 10px;
+}
+.globalTableReposition {
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    left: 23%;
+    width: 100%;
 }

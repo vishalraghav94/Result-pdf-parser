@@ -1,7 +1,13 @@
 var result = angular.module('result', []);
 result.controller('resultController', function($scope, $http) {
     var globalEnrol, globalSem;
+    $scope.startIndex = [];
+    $scope.endIndex = [];
+    $scope.repositionFlag = true;
+    $scope.minIndex = [];
+    $scope.maxIndex = [];
     $scope.getMarks = function(enrol, sem) {
+        $scope.repositionFlag = false;
         sem = sem || 5;
         var currentEnrol = enrol.substr(enrol.length - 8, enrol.length - 1);
         var flag = false;
@@ -20,11 +26,11 @@ result.controller('resultController', function($scope, $http) {
                 }
                 else {
                     $scope.studentsArray = res.data.data;
-                    $scope.startIndex = 0;
-                    $scope.endIndex = 10;
-                    $scope.maxIndex = $scope.studentsArray.length - 1;
-                    $scope.minIndex = 0;
-                    $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+                    $scope.startIndex[0] = 0;
+                    $scope.endIndex[0] = 10;
+                    $scope.maxIndex[0] = $scope.studentsArray.length - 1;
+                    $scope.minIndex[0] = 0;
+                    $scope.students = $scope.studentsArray.slice($scope.startIndex[0], $scope.endIndex[0]);
                     marksCall(enrol, sem);
                 }
             });
@@ -38,27 +44,49 @@ result.controller('resultController', function($scope, $http) {
     };
 
 
-    $scope.next = function() {
-        if ($scope.endIndex + 10 <= $scope.maxIndex)
+
+
+    $scope.next = function(index) {
+        index = index || 0;
+        if ($scope.endIndex[index] + 10 <= $scope.maxIndex[index])
         {
-            $scope.startIndex += 10;
-            $scope.endIndex += 10;
+            $scope.startIndex[index] += 10;
+            $scope.endIndex[index] += 10;
         }
-      $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+        if (!index) {
+            $scope.students = $scope.studentsArray.slice($scope.startIndex[0], $scope.endIndex[0]);
+        }
+        else {
+            $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[index], $scope.endIndex[index]);
+        }
     };
-    $scope.previous = function() {
-        if ($scope.startIndex - 10 >= $scope.minIndex)
+    $scope.previous = function(index) {
+        index = index || 0;
+        if ($scope.startIndex[index] - 10 >= $scope.minIndex[index])
         {
-            $scope.startIndex -= 10;
-            $scope.endIndex -= 10;
+            $scope.startIndex[index] -= 10;
+            $scope.endIndex[index] -= 10;
         }
-        $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+        if (!index) {
+            $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+        }
+        else {
+            $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[index], $scope.endIndex[index]);
+        }
+
     };
-    $scope.returnToFirst = function() {
-        $scope.startIndex = 0;
-        $scope.endIndex = 10;
-        $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
-    }
+    $scope.returnToFirst = function(index) {
+        index = index || 0;
+        $scope.startIndex[index] = 0;
+        $scope.endIndex[index] = 10;
+        if (!index) {
+            $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+        }
+        else {
+            $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[index], $scope.endIndex[index]);
+        }
+
+    };
     function marksCall(enrol, sem) {
         $http.get('/marks?enrol=' + enrol + '&sem=' + sem).then(function(res) {
             $scope.studentInfo = res.data.data;
@@ -68,6 +96,17 @@ result.controller('resultController', function($scope, $http) {
             createGraph(percentArray);
         })
     }
+
+    window.onload = function() {
+        $http.get('/globalRanks').then(function(res) {
+            $scope.globalStudentsArray = res.data.data;
+            $scope.startIndex[1] = 0;
+            $scope.endIndex[1] = 10;
+            $scope.maxIndex[1] = $scope.globalStudentsArray.length - 1;
+            $scope.minIndex[1] = 0;
+            $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[1], $scope.endIndex[1]);
+        });
+    };
    function createGraph(data) {
        var ctx = document.getElementById("myChart").getContext('2d');
        var gradient = ctx.createLinearGradient(0, 100, 300, 0);
