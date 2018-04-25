@@ -44,6 +44,7 @@
                      <li ng-repeat="(key, value) in studentInfo.marks" class="sub-list">{{key}}: <span ng-class="{fail: (value < 40)}">{{value}} <span class="fail" ng-if="value < 40">( Failed! )</span></span></li>
                  </ul>-->
                 <div class="percentage-container">
+                    <p class="marks" style="font-size: 17px;">Sem Total Marks: <span>{{studentInfo.totalMarks}}</span></p>
                     <p class="marks" style="font-size: 17px;">Sem Percentage: <span>{{studentInfo.percent}}%</span></p>
                     <p class="marks" style="font-size: 15px;">Overall Percentage: <span>{{studentInfo.averageMarks}}%</span></p>
                     <p class="marks">This sem ranks:</p>

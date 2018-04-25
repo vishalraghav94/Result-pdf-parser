@@ -68,7 +68,7 @@ result.controller('resultController', function($scope, $http) {
             $scope.endIndex[index] -= 10;
         }
         if (!index) {
-            $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+            $scope.students = $scope.studentsArray.slice($scope.startIndex[0], $scope.endIndex[0]);
         }
         else {
             $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[index], $scope.endIndex[index]);
@@ -80,7 +80,7 @@ result.controller('resultController', function($scope, $http) {
         $scope.startIndex[index] = 0;
         $scope.endIndex[index] = 10;
         if (!index) {
-            $scope.students = $scope.studentsArray.slice($scope.startIndex, $scope.endIndex);
+            $scope.students = $scope.studentsArray.slice($scope.startIndex[0], $scope.endIndex[0]);
         }
         else {
             $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[index], $scope.endIndex[index]);

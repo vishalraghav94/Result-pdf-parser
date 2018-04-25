@@ -282,9 +282,11 @@ table {
     margin-bottom: 10px;
 }
 .globalTableReposition {
-    pointer-events: none;
     position: absolute;
     top: 0px;
-    left: 23%;
+    right: -50%;
     width: 100%;
+}
+.globalTableReposition .global-leaderboards {
+    margin: 0;
 }

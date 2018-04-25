@@ -57,20 +57,6 @@ function printRows() {
     newArr.splice(newArr.length - 4, 4);
     var finalArray;
     if (newArr.length > 1) {
-     /* if (!subFlag) {
-        var subArray = newArr.filter((e, i) => i % 2);
-          subjects = subArray.map((e) => {
-          let id = e.split(',')[1];
-          let code = e.split(',')[2];
-          let sub = e.split(',')[3];
-          let obj = {};
-          obj.id = id;
-          obj.code = code;
-          obj.sub = sub;
-          return obj;
-        });
-          subFlag = true;
-      }*/
       newArr = getFormattedArray(newArr);
       finalArray = getMarksObject(newArr, instituteString);
     }
