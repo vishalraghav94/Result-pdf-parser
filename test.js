@@ -7,8 +7,7 @@ var subjects;
 console.log(file);
 console.log('pdfseparate ' + file + ' pdf_pages/%d.pdf');
 child_process.exec('mkdir pdf_pages');
-child_process.exec('pdfseparate ' + file + ' pdf_pages/%d.pdf',function
-      (error, stdout, stderr) {
+child_process.exec('pdfseparate ' + file + ' pdf_pages/%d.pdf',function (error, stdout, stderr) {
       if (error) {
          //console.log(error.stack);
          //console.log('Error code: '+error.code);
@@ -208,7 +207,7 @@ setTimeout(function() {
   });
   //console.log(newObj);
 
-  fs.writeFile("./" + dest_file, JSON.stringify(finalObj, null, 4), function(err) {
+  fs.writeFile("./jsondata" + dest_file, JSON.stringify(finalObj, null, 4), function(err) {
       if(err) {
           return //console.log(err);
       }

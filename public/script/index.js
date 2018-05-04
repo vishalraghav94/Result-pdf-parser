@@ -6,7 +6,7 @@ result.controller('resultController', function($scope, $http) {
     $scope.repositionFlag = true;
     $scope.minIndex = [];
     $scope.maxIndex = [];
-    $scope.getMarks = function(enrol, sem) {
+    $scope.getMarks = function(enrol, sem, branch) {
         $scope.repositionFlag = false;
         sem = sem || 5;
         var currentEnrol = enrol.substr(enrol.length - 8, enrol.length - 1);
@@ -31,12 +31,12 @@ result.controller('resultController', function($scope, $http) {
                     $scope.maxIndex[0] = $scope.studentsArray.length - 1;
                     $scope.minIndex[0] = 0;
                     $scope.students = $scope.studentsArray.slice($scope.startIndex[0], $scope.endIndex[0]);
-                    marksCall(enrol, sem);
+                    marksCall(enrol, sem, branch = 'IT');
                 }
             });
         }
         else {
-            marksCall(enrol, sem);
+            marksCall(enrol, sem, branch = 'IT');
         }
 
         scrollToY(0, 1200, 'easeOutSine');
@@ -87,33 +87,47 @@ result.controller('resultController', function($scope, $http) {
         }
 
     };
-    function marksCall(enrol, sem) {
-        $http.get('/marks?enrol=' + enrol + '&sem=' + sem).then(function(res) {
-            $scope.studentInfo = res.data.data;
-            /*$scope.studentInfo.percent = $scope.studentInfo.totalMarks / 12;
-            $scope.studentInfo.percent = Math.round($scope.studentInfo.percent*100)/100;*/
-            var percentArray = $scope.studentInfo.allSemMarks;
-            createGraph(percentArray);
+    function marksCall(enrol, sem, branch) {
+        $http.get('/marks?enrol=' + enrol + '&sem=' + sem + '&branch=' + branch).then(function(res) {
+            if (res.data.error) {
+                marksCall(enrol, sem);
+            } else {
+                $scope.studentInfo = res.data.data;
+                /*$scope.studentInfo.percent = $scope.studentInfo.totalMarks / 12;
+                $scope.studentInfo.percent = Math.round($scope.studentInfo.percent*100)/100;*/
+                var percentArray = $scope.studentInfo.allSemMarks;
+                createGraph(percentArray);
+            }
         })
     }
 
     window.onload = function() {
-        $http.get('/globalRanks').then(function(res) {
-            $scope.globalStudentsArray = res.data.data;
-            $scope.startIndex[1] = 0;
-            $scope.endIndex[1] = 10;
-            $scope.maxIndex[1] = $scope.globalStudentsArray.length - 1;
-            $scope.minIndex[1] = 0;
-            $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[1], $scope.endIndex[1]);
+        $http.get('/globalRanks' ).then(function(res) {
+            if (res.data.error) {
+                this();
+            }
+             else {
+                $scope.globalStudentsArray = res.data.data;
+                $scope.startIndex[1] = 0;
+                $scope.endIndex[1] = 10;
+                $scope.maxIndex[1] = $scope.globalStudentsArray.length - 1;
+                $scope.minIndex[1] = 0;
+                $scope.globalStudents = $scope.globalStudentsArray.slice($scope.startIndex[1], $scope.endIndex[1]);
+            }
+
         });
     };
+    var myChart;
    function createGraph(data) {
        var ctx = document.getElementById("myChart").getContext('2d');
        var gradient = ctx.createLinearGradient(0, 100, 300, 0);
        gradient.addColorStop(0, '#EE7752');
        gradient.addColorStop(1, '#E73C7E');
        console.log(ctx);
-       var myChart = new Chart(ctx, {
+       if (myChart) {
+           myChart.destroy();
+       }
+       myChart = new Chart(ctx, {
            type: 'line',
            data: {
                labels: ["1st", "2nd", "3rd", "4th", "5th", "6th"],
