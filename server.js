@@ -100,20 +100,21 @@ app.get('/marks', function(req, res) {
         if (!overallGlobalRanks) {
             overallGlobalRanks = getGlobalRanks(overall, true);
         }
-        let collegeRank = collegeRanks.indexOf(currentStuObj);
+        let collegeRank = collegeRanks.indexOfObj(currentStuObj.enrol);//collegeRanks.indexOf(currentStuObj);
         let overallRanks = {};
         overallRanks.rank = overallLocalRanks.indexOf(overallLocalRanks.find(e => (e.enrol === currentStuObj.enrol))) + 1;
         overallRanks.collegeRank = overallCollegeRanks.indexOf(overallCollegeRanks.find(e => (e.enrol === currentStuObj.enrol))) + 1;
         overallRanks.globalRank = overallGlobalRanks.indexOf(overallGlobalRanks.find(e => (e.enrol === currentStuObj.enrol))) + 1;
         let rank = localRanks.indexOf(currentStuObj);
-        let globalRank = globalRanks.indexOf(currentStuObj);
-        currentStuObj.averageMarks = overall[currentEnrol][currentStuObj.enrol].averageMarks;
-        currentStuObj.rank = rank + 1;
-        currentStuObj.globalRank = globalRank + 1;
-        currentStuObj.collegeRank = collegeRank + 1;
-        currentStuObj.allSemMarks = allSemMarks;
-        currentStuObj.overallRanks = overallRanks;
-        res.send({data: currentStuObj});
+        let globalRank = globalRanks.indexOfObj(currentStuObj.enrol);
+        var newMarksObj = Object.assign({}, currentStuObj);
+        newMarksObj.averageMarks = overall[currentEnrol][currentStuObj.enrol].averageMarks;
+        newMarksObj.rank = rank + 1;
+        newMarksObj.globalRank = globalRank + 1;
+        newMarksObj.collegeRank = collegeRank + 1;
+        newMarksObj.allSemMarks = allSemMarks;
+        newMarksObj.overallRanks = overallRanks;
+        res.send({data: newMarksObj});
     } catch(e) {
         res.send({error: 'No data'});
     }
@@ -259,6 +260,17 @@ function getCollegeRank(obj, institute, isOverallRank) {
     return newArr;
 }
 
+Array.prototype.indexOfObj = function(enrol) {
+    var self = this;
+    var index = -1;
+    for (let i = 0; i < this.length; i++) {
+        if (self[i].enrol === enrol) {
+            index = i;
+            break;
+        }
+    }
+    return index;
+};
 app.listen(process.env.PORT || 4000, function() {
   console.log('Server up and running at http://localhost:4000');
 });
