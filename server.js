@@ -4,10 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var busboy = require('connect-busboy');
 var child_process = require('child_process');
-const nocache = require('superagent-no-cache');
 const request = require('superagent');
-const prefix = require('superagent-prefix')('/static');
-
 app.use(busboy());
 app.post('/upload', function(req, res) {
     console.log(req.body);
@@ -153,10 +150,15 @@ app.post('/helloworld', function(req, res) {
         response_type: "in_channel",
         "attachments": [
             {
-                "text": "Hello, How are you?"
+                "text": "Hello, How are you?" + req.body.message
             }
         ]
     };
+    if (req.body.callback_id === 'hello_world') {
+        request.post(req.body.response_url).send(body).end((err, res) => {
+                //
+        });
+    }
    res.send(body);
 });
 
