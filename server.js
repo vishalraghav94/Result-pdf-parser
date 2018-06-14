@@ -143,6 +143,19 @@ app.get('/ranks', function(req, res) {
   res.send({data: localRanks});
 });
 
+app.post('/helloworld', function(req, res) {
+    console.log("req accepted from slack.");
+    var body = {
+        response_type: "in_channel",
+        "attachments": [
+            {
+                "text": "Hello, How are you?"
+            }
+        ]
+    };
+   res.send(body);
+});
+
 app.get('/globalRanks', function(req, res) {
     let branch = req.query.branch || 'IT';
     try {
