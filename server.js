@@ -154,7 +154,7 @@ app.post('/helloworld', function(req, res) {
             }
         ]
     };
-    let payload = JSON.parse(req.body.payload);
+    let payload = req.body.payload ? JSON.parse(req.body.payload) : undefined;
 
     console.log(req + '');
     if (payload.callback_id === 'hello_world') {
