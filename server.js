@@ -157,7 +157,7 @@ app.post('/helloworld', function(req, res) {
     let payload = req.body.payload ? JSON.parse(req.body.payload) : undefined;
 
     console.log(req + '');
-    if (payload.callback_id === 'hello_world') {
+    if (payload && payload.callback_id === 'hello_world') {
         request.post(payload.response_url).send(body).end((err, res) => {
                 //
         });
