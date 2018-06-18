@@ -145,23 +145,37 @@ app.get('/ranks', function(req, res) {
 
 app.post('/helloworld', function(req, res) {
     console.log("req accepted from slack.");
-
-    var body = {
-        response_type: "in_channel",
-        "attachments": [
-            {
-                "text": "Hello, How are you?" + req.body.message
-            }
-        ]
-    };
     let payload = req.body.payload ? JSON.parse(req.body.payload) : undefined;
 
     console.log(req + '');
+
+    var body = {
+        "trigger_id": payload.trigger_id,
+        "dialog": {
+            "callback_id": payload.callback_id,
+            "title": "Request a Ride",
+            "submit_label": "Request",
+            "notify_on_cancel": true,
+            "elements": [
+                {
+                    "type": "text",
+                    "label": "Pickup Location",
+                    "name": "loc_origin"
+                },
+                {
+                    "type": "text",
+                    "label": "Dropoff Location",
+                    "name": "loc_destination"
+                }
+            ]
+        }
+    };
     if (payload && payload.callback_id === 'hello_world') {
-        request.post(payload.response_url).send(body).end((err, res) => {
+        request.post('https://slack.com/api/dialog.open').send(body).end((err, res) => {
                 //
         });
     }
+
    res.send(body);
 });
 
