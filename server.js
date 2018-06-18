@@ -169,7 +169,7 @@ app.post('/helloworld', function(req, res) {
             ]
         }
     };
-    var authToken = payload.token;
+    var authToken = 'xoxp-28632775939-380675780304-382632678855-12041307c7c9ac9f3050946a0f186659';
     if (payload && payload.callback_id === 'hello_world') {
         request.post('https://slack.com/api/dialog.open').set('Accept', 'application/json').set('Authorization', 'Bearer ' + authToken).send(body).end((err, res) => {
                 if (err) {
