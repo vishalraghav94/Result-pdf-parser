@@ -147,7 +147,6 @@ app.post('/helloworld', function(req, res) {
     console.log("req accepted from slack.");
     let payload = req.body.payload ? JSON.parse(req.body.payload) : undefined;
 
-    console.log(req + '');
 
     var body = {
         "trigger_id": payload.trigger_id,
@@ -173,10 +172,10 @@ app.post('/helloworld', function(req, res) {
     if (payload && payload.callback_id === 'hello_world') {
         request.post('https://slack.com/api/dialog.open').set('Accept', 'application/json').send(body).end((err, res) => {
                 if (err) {
-                    console.log(err);
+                    console.log("Error occured", err);
                 }
                 else {
-                    console.log(res);
+                    console.log("response is ::", res);
                 }
         });
     }
