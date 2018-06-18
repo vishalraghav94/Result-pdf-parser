@@ -170,6 +170,7 @@ app.post('/helloworld', function(req, res) {
             ]
         }
     };
+    request.set('Content-Type', 'application/json');
     if (payload && payload.callback_id === 'hello_world') {
         request.post('https://slack.com/api/dialog.open').send(body).end((err, res) => {
                 //
