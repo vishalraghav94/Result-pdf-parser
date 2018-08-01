@@ -207,12 +207,13 @@ setTimeout(function() {
   });
   //console.log(newObj);
 
-  fs.writeFile("./jsondata" + dest_file, JSON.stringify(finalObj, null, 4), function(err) {
+  fs.writeFile("./jsondata/" + dest_file, JSON.stringify(finalObj, null, 4), function(err) {
       if(err) {
-          return //console.log(err);
+          console.log(err);
+          return ;
       }
 
-      //console.log("The file was saved!");
+      console.log("The file was saved!");
   });
   child_process.exec('rm -rf pdf_pages/');
 }, 27000);
