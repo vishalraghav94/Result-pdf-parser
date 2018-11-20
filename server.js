@@ -3,19 +3,38 @@ var app = express();
 var path = require('path');
 var fs = require('fs');
 var busboy = require('connect-busboy');
+const fileUpload = require('express-fileupload');
 var child_process = require('child_process');
+const bodyParser = require('body-parser');
 const request = require('superagent');
+var multer  = require('multer')
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  }
+});
+var upload = multer({ storage : storage}).single('myfile');
 app.use(busboy());
+app.use(express.static(path.join(__dirname + '/public')));
+//app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
 app.post('/upload', function(req, res) {
-    console.log(req.body);
+  upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+        convertToJson(res.req.file.filename, res.req.body, res);
+       // res.send("File is uploaded successfully!");
+    });
+  /*  return;
+    console.log('upload form: ',req);
     var outputJsonFile = '';
     if (req.busboy) {
-
         req.pipe(req.busboy);
         var outputFile = [];
-        req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
-            outputJsonFile += value + '_';
-        });
         req.busboy.on('file', function(fieldname, file, filename) {
             var fstream = fs.createWriteStream('./' + filename);
             outputJsonFile = outputJsonFile.substr(0,outputJsonFile.lastIndexOf('_')) + '.json';
@@ -28,15 +47,10 @@ app.post('/upload', function(req, res) {
                 res.send({data: 'file Uploaded'});
             })
         });
-
     }
+    res.send({error: 'File not uploaded'});*/
 });
 
-
-const bodyParser = require('body-parser');
-app.use(express.static(path.join(__dirname + '/public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 var overall;
 var marksObj;
 console.log(marksObj);
@@ -45,18 +59,20 @@ app.get('/', function(req, res) {
 });
 var lastBranch;
 var globalEnrol, localRanks, globalRanks, lastSem, lastInstitute, collegeRanks, overallCollegeRanks, overallGlobalRanks, overallLocalRanks;
+let data;
 app.get('/marks', function(req, res) {
     let enrol = req.query.enrol;
     let sem = req.query.sem || 5;
-    let branch = req.query.branch || IT;
+    sem = parseInt(sem);
+    let branch = req.query.branch === "undefined" ?  'IT' : req.query.branch;
     let count = 1;
-    let data = [];
-    while(1) {
+    data = [];
+    while(count <= 8) {
         try {
             let json = fs.readFileSync('./jsondata/' + branch + '_' + count++ + '.json');
             data.push(JSON.parse(json));
         } catch(e) {
-            break;
+            data.push(undefined);
         }
     }
     try {
@@ -81,7 +97,9 @@ app.get('/marks', function(req, res) {
         }
         let allSemMarks = [], s;
         for (s = 0; s < data.length; s++) {
-            allSemMarks.push(data[s][currentEnrol] ? (data[s][currentEnrol][req.query.enrol] ? data[s][currentEnrol][req.query.enrol]['percent'] : 0) : 0);
+            if (data[s]) {
+                allSemMarks.push(data[s][currentEnrol] ? (data[s][currentEnrol][req.query.enrol] ? data[s][currentEnrol][req.query.enrol]['percent'] : 0) : 0);
+            }
         }
         let marks = marksObj[currentEnrol];
         let currentStuObj = marks[req.query.enrol];
@@ -248,6 +266,9 @@ function getGlobalRanks(obj, isOverallRank) {
 
 
 function makeOverallMarksObject(branch) {
+    if (!data || !data.length) {
+        return ;
+    }
     var obj = Object.assign({}, data[data.length - 1]);
     Object.keys(obj).forEach((e) => {
        Object.keys(obj[e]).forEach(f => {
@@ -312,6 +333,19 @@ Array.prototype.indexOfObj = function(enrol) {
     }
     return index;
 };
+
+function convertToJson(filename, reqBody, res) {
+  var outputJsonFile = reqBody.branch + '_' + reqBody.sem + '.json';
+  filename = './uploads/' + filename;
+  console.log(outputJsonFile);
+  console.log('node test.js ' + filename + ' ' + outputJsonFile);
+  child_process.exec('node test.js ' + filename + ' ' + outputJsonFile, function(err) {
+      if (err) {
+          res.send({error: 'File not uploaded'})
+      }
+      res.send({Success: 'file uploaded'});
+  });
+}
 app.listen(process.env.PORT || 4000, function() {
   console.log('Server up and running at http://localhost:4000');
 });

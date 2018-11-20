@@ -27,6 +27,12 @@
     background: transparent !important;
     border: transparent !important;
 }
+.dropdown {
+    font-size: 18px;
+    background: #23D5AB;
+    color: white;
+    vertical-align: middle;
+}
 .info {
     vertical-align: top;
     color: white;
@@ -278,15 +284,38 @@ table {
 .ranks .marks {
     font-size: 15px;
 }
+.fake-upload-button {
+    padding: 10px;
+    display: inline-block;
+    width: 110px;
+    border: 1px solid black;
+    overflow: hidden;
+    color: white;
+    background: black;
+    pointer-events: none;
+    text-align: center;
+    position: absolute;
+    top: 0;
+}
+.input-file-container {
+    padding: 10px;
+    display: inline-block;
+    width: 110px;
+    overflow: hidden;
+    color: white;
+}
+
 .ranks {
     margin-bottom: 10px;
 }
+
 .globalTableReposition {
     position: absolute;
     top: 0px;
     right: -50%;
     width: 100%;
 }
+
 .globalTableReposition .global-leaderboards {
     margin: 0;
 }

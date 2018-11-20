@@ -3,12 +3,13 @@ result.controller('resultController', function($scope, $http) {
     var globalEnrol, globalSem;
     $scope.startIndex = [];
     $scope.endIndex = [];
+    $scope.branch = 'IT';
     $scope.repositionFlag = true;
     $scope.minIndex = [];
     $scope.maxIndex = [];
     $scope.getMarks = function(enrol, sem, branch) {
         $scope.repositionFlag = false;
-        sem = sem || 5;
+        sem = sem || 6;
         var currentEnrol = enrol.substr(enrol.length - 8, enrol.length - 1);
         var flag = false;
         if (!globalEnrol || (currentEnrol !== globalEnrol)) {
@@ -31,12 +32,12 @@ result.controller('resultController', function($scope, $http) {
                     $scope.maxIndex[0] = $scope.studentsArray.length - 1;
                     $scope.minIndex[0] = 0;
                     $scope.students = $scope.studentsArray.slice($scope.startIndex[0], $scope.endIndex[0]);
-                    marksCall(enrol, sem, branch = 'IT');
+                    marksCall(enrol, sem, branch);
                 }
             });
         }
         else {
-            marksCall(enrol, sem, branch = 'IT');
+            marksCall(enrol, sem, branch);
         }
 
         scrollToY(0, 1200, 'easeOutSine');
@@ -90,6 +91,7 @@ result.controller('resultController', function($scope, $http) {
     function marksCall(enrol, sem, branch) {
         $http.get('/marks?enrol=' + enrol + '&sem=' + sem + '&branch=' + branch).then(function(res) {
             if (res.data.error) {
+               alert(res.data.error);
                 marksCall(enrol, sem);
             } else {
                 $scope.studentInfo = res.data.data;

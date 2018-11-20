@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://www.facebook.com">
     <title>Result</title>
     <script src="script/angular.min.js"></script>
     <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>-->
@@ -14,7 +15,31 @@
        <div>
            <input type="text" name="enrol" ng-model="enrol" class="input-text" placeholder="Enrollment">
            <input type="number" name="num" ng-model="sem" class="input-text" placeholder="Sem" min="1">
-           <button ng-click="getMarks(enrol, sem)" class="submit-button">Submit</button>
+           <select class="dropdown" name="branch" ng-model="branch">
+               <option value="IT" selected>I.T.</option>
+               <option value="CS">C.S.</option>
+               <option value="ECE">E.C.E.</option>
+               <option value="EE">E.E.</option>
+               <option value="ME">M.E.</option>
+           </select>
+           <button ng-click="getMarks(enrol, sem, branch)" class="submit-button">Submit</button>
+           <form class="upload-form" action="/upload" enctype="multipart/form-data" method="post">
+               <div style="position: relative;">
+                   <div class="fake-upload-button">Upload File</div>
+                   <div class="input-file-container"><input type="file" name="myfile" value="" required></div>
+               </div>
+              <div><input type="number" class="input-text" name="sem" value="" placeholder="Enter Sem" required></div>
+              <div>
+                  Enter Branch: <select class="dropdown" name="branch">
+                    <option value="IT">IT</option>
+                    <option value="CS">CS</option>
+                    </select>
+              </div>
+               <div>
+                   <input type="submit" name="submit" value="Upload" class="submit-button">
+               </div>
+
+           </form>
        </div>
         <div class="info" ng-if="studentInfo">
             <p class="name">{{studentInfo.name}}</p>
@@ -131,6 +156,39 @@
 
 </div>
 
+    <div class="fb-messenger-checkbox"
+         origin="https://swift-seahorse-10.localtunnel.me"
+        page_id="1818990204850009"
+        messenger_app_id="471211336688334"
+        user_ref="vishalraghav7"
+        prechecked="false"
+            allow_login="true"
+                size="standard"
+                    skin="light"
+                    center_align="true">
+    </div>
+
+
 </body>
 <script src="script/index.js"></script>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId            : '471211336688334',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v3.1'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+</script>
 </html>
