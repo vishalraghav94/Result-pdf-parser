@@ -130,7 +130,7 @@ result.controller('resultController', function($scope, $http) {
        myChart = new Chart(ctx, {
            type: 'line',
            data: {
-               labels: ["1st", "2nd", "3rd", "4th", "5th", "6th"],
+               labels: ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"],
                datasets: [{
                    label: 'Marks over Semesters',
                    data: data,//[74.4, 78, 80.9, 80.5, 83.5],
