@@ -45,25 +45,28 @@ app.get('/', function(req, res) {
 });
 var lastBranch;
 var globalEnrol, localRanks, globalRanks, lastSem, lastInstitute, collegeRanks, overallCollegeRanks, overallGlobalRanks, overallLocalRanks;
+let data;
+let count = 1;
+data = [];
+while(count <= 8) {
+    try {
+        let json = fs.readFileSync('./jsondata/' + 'IT' + '_' + count++ + '.json');
+        data.push(JSON.parse(json));
+    } catch(e) {
+        console.error(e);
+    }
+}
+makeOverallMarksObject('IT', data);
 app.get('/marks', function(req, res) {
     let enrol = req.query.enrol;
     let sem = req.query.sem || 5;
-    let branch = req.query.branch || IT;
-    let count = 1;
-    let data = [];
-    while(1) {
-        try {
-            let json = fs.readFileSync('./jsondata/' + branch + '_' + count++ + '.json');
-            data.push(JSON.parse(json));
-        } catch(e) {
-            break;
-        }
-    }
+    sem = parseInt(sem);
+    let branch = req.query.branch === "undefined" ?  'IT' : req.query.branch;
     try {
         overall = fs.readFileSync('jsondata/overall_' + branch + '.json');
         overall = JSON.parse(overall);
     } catch(e) {
-        makeOverallMarksObject(branch);
+        makeOverallMarksObject(branch, data);
         setTimeout(function () {
             overall = fs.readFileSync('jsondata/overall_' + branch + '.json');
             overall = JSON.parse(overall);
@@ -190,7 +193,7 @@ app.get('/globalRanks', function(req, res) {
         overall = fs.readFileSync('jsondata/overall_' + branch + '.json');
         overall = JSON.parse(overall);
     } catch(e) {
-        makeOverallMarksObject(branch);
+        makeOverallMarksObject(branch, data);
         setTimeout(function () {
             overall = fs.readFileSync('jsondata/overall_' + branch + '.json');
             overall = JSON.parse(overall);
@@ -247,7 +250,12 @@ function getGlobalRanks(obj, isOverallRank) {
 }
 
 
-function makeOverallMarksObject(branch) {
+
+function makeOverallMarksObject(branch, data) {
+    console.log('overall:');
+    if (!data || !data.length) {
+        return ;
+    }
     var obj = Object.assign({}, data[data.length - 1]);
     Object.keys(obj).forEach((e) => {
        Object.keys(obj[e]).forEach(f => {
@@ -261,12 +269,13 @@ function makeOverallMarksObject(branch) {
            obj[e][f].averageMarks = Math.round((averageMarks / allSemMarks.length) * 100) / 100
        });
     });
+    console.log(obj);
     fs.writeFile("./jsondata/" + 'overall_' + branch + '.json', JSON.stringify(obj, null, 4), function(err) {
         if(err) {
-            return //console.log(err);
+            return console.log(err);
         }
 
-        //console.log("The file was saved!");
+        console.log("The file was saved!");
     });
     //return obj;
 }
@@ -312,6 +321,21 @@ Array.prototype.indexOfObj = function(enrol) {
     }
     return index;
 };
+
+function convertToJson(filename, reqBody, res) {
+  var outputJsonFile = reqBody.branch + '_' + reqBody.sem + '.json';
+  filename = './uploads/' + filename;
+  console.log(outputJsonFile);
+  console.log('node test.js ' + filename + ' ' + outputJsonFile);
+  child_process.exec('node test.js ' + filename + ' ' + outputJsonFile, function(err) {
+      if (err) {
+          res.send({error: 'File not uploaded'})
+      }
+      res.send({Success: 'file uploaded'});
+      makeOverallMarksObject(reqBody.branch, data);
+  });
+}
+
 app.listen(process.env.PORT || 4000, function() {
   console.log('Server up and running at http://localhost:4000');
 });
